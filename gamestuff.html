@@ -600,6 +600,7 @@
         </div>
       </div>
     </section>
+    
     <section class="main-page_section">
       <div class="w-layout-blockcontainer container w-container">
         <div class="section-title-wrap">
@@ -1084,5 +1085,49 @@
         });
       });
     </script>
+
+
+<script>
+  const slides = document.querySelectorAll('.hero-slide');
+  const dots = document.querySelectorAll('.w-slider-dot');
+  let currentSlide = 0;
+  const intervalTime = 4000;
+  let slideInterval = setInterval(nextSlide, intervalTime);
+
+  function showSlide(index) {
+    slides.forEach((slide, i) => {
+      slide.style.visibility = i === index ? 'visible' : 'hidden';
+      slide.style.zIndex = i === index ? '11' : '1';
+    });
+
+    dots.forEach((dot, i) => {
+      dot.classList.toggle('w-active', i === index);
+      dot.setAttribute('aria-pressed', i === index ? 'true' : 'false');
+    });
+
+    currentSlide = index;
+  }
+
+  function nextSlide() {
+    let next = (currentSlide + 1) % slides.length;
+    showSlide(next);
+  }
+
+  // Click nav dots
+  dots.forEach((dot, index) => {
+    dot.addEventListener('click', () => {
+      showSlide(index);
+      clearInterval(slideInterval); // pause auto on click
+      slideInterval = setInterval(nextSlide, intervalTime);
+    });
+  });
+
+  // Init
+  showSlide(currentSlide);
+</script>
+
+
+
+
   </body>
 </html>
